@@ -1,66 +1,107 @@
-/* —— basic reset —— */
+/* Use the brand palette throughout the page. */
+:root {
+  --loreal-white: #fff;
+  --loreal-black: #000;
+  --loreal-red: #c8102e;
+  --loreal-gold: #b08d57;
+}
+
+/* Keep spacing and sizing predictable across the page. */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* —— body + fonts —— */
 body {
-  font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  color: #333;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
+  background: var(--loreal-white);
+  color: var(--loreal-black);
+  font-family:
+    "Helvetica Now Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .page-wrapper {
+  display: flex;
+  flex-direction: column;
   width: 90%;
   max-width: 900px;
+  min-height: 100vh;
 }
 
-/* header */
+/* Center the logo and pair the interface font with an editorial serif title. */
 .site-header {
+  padding: 42px 0 24px;
   text-align: center;
-  padding-top: 50px;
+  border-bottom: 1px solid var(--loreal-gold);
+}
+
+.site-logo {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  margin: 0 auto 20px;
 }
 
 .site-title {
-  font-size: 22px;
+  font-family:
+    "Halesworth eText", "Bauer Bodoni", "Bodoni 72", Didot, Georgia, serif;
+  font-size: clamp(24px, 4vw, 32px);
   font-weight: 500;
-  margin-bottom: 10px;
 }
 
-/* chat window */
+/* Give the conversation a clean frame with a gold accent. */
+main {
+  flex: 1;
+}
+
 .chatbox {
-  margin: 40px 0;
+  margin: 36px 0;
 }
 
 .chat-window {
-  height: 360px;
-  border: 1px solid #000;
-  padding: 20px;
-  font-size: 18px;
-  line-height: 1.5;
+  height: 520px;
   overflow-y: auto;
-  background: #fafafa;
+  padding: 22px;
+  border: 1px solid var(--loreal-gold);
+  border-top: 4px solid var(--loreal-black);
+  background: var(--loreal-white);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-size: 17px;
+  line-height: 1.6;
   white-space: pre-line;
 }
 
-/* messages */
+/* Use red for user messages and gold to identify assistant replies. */
 .msg {
+  width: fit-content;
+  max-width: 85%;
   margin-bottom: 14px;
+  padding: 10px 14px;
   line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
+/* Align each speaker differently so the conversation is easy to scan. */
 .msg.user {
-  color: #000;
+  margin-left: auto;
+  border-radius: 14px 14px 0 14px;
+  background: var(--loreal-red);
+  color: var(--loreal-white);
 }
 
 .msg.ai {
-  color: #666666;
+  margin-right: auto;
+  border-radius: 0 14px 14px 14px;
+  border-left: 3px solid var(--loreal-gold);
+  background: #f5f3ef;
+  color: var(--loreal-black);
 }
 
-/* input row */
+/* Keep the message field and send button easy to use. */
 .chat-form {
   display: flex;
   gap: 12px;
@@ -69,29 +110,38 @@ body {
 
 .chat-form input {
   flex: 1;
-  padding: 12px;
-  border: 1px solid #ccc;
-  font-size: 18px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--loreal-black);
+  border-radius: 0;
+  background: var(--loreal-white);
+  color: var(--loreal-black);
+  font: inherit;
+  font-size: 16px;
 }
 
-.chat-form input:focus {
-  outline: 2px solid #000;
-  outline-offset: 2px;
+.chat-form input::placeholder {
+  color: var(--loreal-black);
+  opacity: 0.7;
+}
+
+.chat-form input:focus,
+.chat-form button:focus {
+  outline: 2px solid var(--loreal-gold);
+  outline-offset: 3px;
 }
 
 .chat-form button {
-  font-size: 18px;
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 12px;
+  display: flex;
   width: 48px;
   height: 48px;
-  display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid var(--loreal-black);
+  background: var(--loreal-black);
+  color: var(--loreal-white);
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.2s ease;
 }
 
 .chat-form button .material-icons {
@@ -99,15 +149,11 @@ body {
 }
 
 .chat-form button:hover {
-  background: #666666;
+  border-color: var(--loreal-red);
+  background: var(--loreal-red);
 }
 
-.chat-form button:focus {
-  outline: 2px solid #000;
-  outline-offset: 2px;
-}
-
-/* visually hidden */
+/* Hide the visible label without removing it for screen readers. */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -120,12 +166,11 @@ body {
   border: 0;
 }
 
-/* footer */
 .site-footer {
-  margin: 60px 0 40px;
+  padding: 22px 0 30px;
+  border-top: 1px solid var(--loreal-gold);
   text-align: center;
   font-size: 14px;
-  color: #666;
 }
 
 .site-footer nav {
@@ -134,10 +179,35 @@ body {
 
 .site-footer a {
   margin: 0 8px;
-  color: #000;
+  color: var(--loreal-black);
   text-decoration: none;
 }
 
 .site-footer a:hover {
-  color: #666666;
+  color: var(--loreal-red);
+}
+
+@media (max-width: 480px) {
+  .page-wrapper {
+    width: 92%;
+  }
+
+  .site-header {
+    padding-top: 30px;
+  }
+
+  .chatbox {
+    margin: 24px 0;
+  }
+
+  .chat-window {
+    height: 65vh;
+    min-height: 360px;
+    padding: 16px;
+  }
+
+  .site-footer a {
+    display: inline-block;
+    margin: 6px 8px;
+  }
 }

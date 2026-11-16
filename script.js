@@ -3,13 +3,14 @@ const userInput = document.getElementById("userInput");
 const chatWindow = document.getElementById("chatWindow");
 const sendButton = document.getElementById("sendBtn");
 
-// Replace this example with your class Worker URL; it keeps the API key out of the browser.
-const workerUrl = "https://loreal-chatbot.your-subdomain.workers.dev/";
+// Use your class Cloudflare Worker URL here. The API key stays in the Worker.
+const workerUrl = "https://loreal.bradleyjosephleon.workers.dev/";
 const conversationMessages = [
   {
     role: "system",
     content:
-      "You are a helpful L'Oréal beauty assistant. Answer questions about L'Oréal products, beauty, skincare, makeup, haircare, fragrance, routines, and recommendations. If a question is unrelated to these topics, politely explain that you specialize in L'Oréal and beauty-related help, then invite the user to ask about a product or routine. Do not answer the unrelated question.",
+      "You are a helpful L'Oréal beauty assistant. Use the full conversation history to make natural follow-up responses. Remember details the user shares, such as their name, preferences, and past questions, and refer to them when relevant. Never guess details the user has not shared. Answer questions about L'Oréal products, beauty, skincare, makeup, haircare, fragrance, routines, and recommendations. If a question is unrelated to these topics, politely explain that you specialize in L'Oréal and beauty-related help, then invite the user to ask about a product or routine. Do not answer the unrelated question. " +
+      "Format every reply for a simple chat window using plain text only. Do not use markdown: no headings, no bold asterisks, no tables, no horizontal rules, and no code fences. Use short paragraphs. For routines, use a simple numbered list like: 1) Step — product name. Brief reason. Keep responses concise unless the user asks for more detail.",
   },
 ];
 
@@ -48,9 +49,16 @@ chatForm.addEventListener("submit", async (event) => {
       body: JSON.stringify({ messages: conversationMessages }),
     });
     const data = await response.json();
+    const apiError =
+      typeof data.error === "string" ? data.error : data.error?.message;
 
     if (!response.ok) {
-      throw new Error(data.error?.message || `Request failed (${response.status})`);
+      throw new Error(apiError || `Request failed (${response.status})`);
+    }
+
+    // Show an API error even if the Worker accidentally returned it with status 200.
+    if (apiError) {
+      throw new Error(apiError);
     }
 
     const reply = data.choices?.[0]?.message?.content;

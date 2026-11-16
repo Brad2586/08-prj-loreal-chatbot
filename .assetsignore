@@ -1,0 +1,11 @@
+/.assetsignore
+/.devcontainer/
+/.git/
+/.github/
+/.gitignore
+/AGENTS.md
+/README.md
+/RESOURCE_cloudflare-worker.js
+/secrets.js
+/src/
+/wrangler.toml
